@@ -1,0 +1,7 @@
+interface:
+  display_name: "Codex DeepSearch"
+  short_description: "Codex-native research harness"
+  default_prompt: "Use $codex-deepsearch to run source-backed research with Codex tool ledgers, review gates, and optional delegation."
+
+policy:
+  allow_implicit_invocation: true
