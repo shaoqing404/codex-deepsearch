@@ -58,26 +58,34 @@ frame -> scenario matrix -> source discovery -> source ledger -> claim ledger
 - **Privacy-safe by default.** `workspace/`, `recordings/`, `transcripts/`, `tts/`, `audio/`, `.env`, secrets, and ignored files are off-limits unless the user explicitly authorizes them for the current task.
 - **Optional delegation.** `codex-with-cc-plus` and Claude Code workers are optional layers. Main Codex always owns research design, ledgers, review, and final acceptance.
 
-## Skill layout
+## Repository layout
 
 ```text
-skills/codex-deepsearch/
-├── SKILL.md                      # route map + minimum contract (Agent Skills spec)
-├── agents/openai.yaml            # Codex UI metadata (display name, chip, default prompt)
-├── references/                   # detailed rules, loaded on demand
-│   ├── codex-runtime-model.md    # threads, workspaces, /goal, dirty worktree, tools
-│   ├── research-workflow.md      # the 8-phase flow
-│   ├── codex-tooling-rules.md    # web/search/browser/MCP/local evidence rules
-│   ├── source-and-claim-ledgers.md
-│   ├── review-gate.md
-│   ├── privacy-and-repo-safety.md
-│   └── delegation-with-codex-with-cc.md
-└── templates/                    # durable artifacts the agent can fill
-    ├── RESEARCH_DESIGN.md
-    ├── SOURCE_LEDGER.md
-    ├── CLAIM_LEDGER.md
-    ├── DEEPSEARCH_REPORT.md
-    └── REVIEW_GATE.md
+codex-deepsearch/
+├── .agents/plugins/marketplace.json          # Codex plugin marketplace catalog
+├── plugins/codex-deepsearch/                 # the installable plugin
+│   ├── .codex-plugin/plugin.json             # plugin manifest (required)
+│   └── skills/codex-deepsearch/              # the skill (Agent Skills spec)
+│       ├── SKILL.md                          # route map + minimum contract
+│       ├── agents/openai.yaml                # Codex UI metadata (display name, chip, default prompt)
+│       ├── references/                       # detailed rules, loaded on demand
+│       │   ├── codex-runtime-model.md        # threads, workspaces, /goal, dirty worktree, tools
+│       │   ├── research-workflow.md          # the 8-phase flow
+│       │   ├── codex-tooling-rules.md        # web/search/browser/MCP/local evidence rules
+│       │   ├── source-and-claim-ledgers.md
+│       │   ├── review-gate.md
+│       │   ├── privacy-and-repo-safety.md
+│       │   └── delegation-with-codex-with-cc.md
+│       └── templates/                        # durable artifacts the agent can fill
+│           ├── RESEARCH_DESIGN.md
+│           ├── SOURCE_LEDGER.md
+│           ├── CLAIM_LEDGER.md
+│           ├── DEEPSEARCH_REPORT.md
+│           └── REVIEW_GATE.md
+├── docs/                                     # architecture, roadmap, index
+├── specs/                                    # v1 spec + forward-test plan
+├── AGENTS.md                                 # agent-facing map
+└── README.md                                 # this file
 ```
 
 Per Codex `skill-creator` conventions, the skill folder contains **no** `README.md`, `CHANGELOG.md`, or install guide — only files the agent uses. This repo-level `README.md` is the human-facing doc.
@@ -86,20 +94,25 @@ Per Codex `skill-creator` conventions, the skill folder contains **no** `README.
 
 ### OpenAI Codex CLI (primary target)
 
-```bash
-# from this repo, using Codex's bundled skill-installer helper
-python /Users/mac/.codex/skills/.system/skill-installer/scripts/install-skill-from-github.py \
-  --repo shaoqing404/codex-deepsearch --path skills/codex-deepsearch
+**Option A — Plugin marketplace (recommended for distribution):**
 
-# or manually
-mkdir -p ~/.codex/skills
-cp -r skills/codex-deepsearch ~/.codex/skills/
+```bash
+codex plugin marketplace add shaoqing404/codex-deepsearch
+# then in Codex: Plugins → select "Codex DeepSearch" marketplace → install
 ```
 
-For local development, symlink instead of copy so edits take effect immediately:
+Codex reads `.agents/plugins/marketplace.json` from the repo and installs the plugin from `plugins/codex-deepsearch/`.
+
+**Option B — Direct skill install (for local development):**
 
 ```bash
-ln -s "$PWD/skills/codex-deepsearch" ~/.codex/skills/codex-deepsearch
+# symlink so edits take effect immediately
+ln -s "$PWD/plugins/codex-deepsearch/skills/codex-deepsearch" \
+  ~/.codex/skills/codex-deepsearch
+
+# or copy
+mkdir -p ~/.codex/skills
+cp -r plugins/codex-deepsearch/skills/codex-deepsearch ~/.codex/skills/
 ```
 
 Codex auto-discovers skills in `~/.codex/skills/`. No restart is needed for edits to existing skills.
@@ -110,12 +123,12 @@ The `SKILL.md` frontmatter (`name` + `description`) is Agent-Spec-compliant and 
 
 ```bash
 # project skill (IDE/CLI/Work)
-mkdir -p .trae/skills && cp -r skills/codex-deepsearch .trae/skills/
+mkdir -p .trae/skills && cp -r plugins/codex-deepsearch/skills/codex-deepsearch .trae/skills/
 
 # global skill (IDE/Work)
-cp -r skills/codex-deepsearch ~/.trae-cn/skills/
+cp -r plugins/codex-deepsearch/skills/codex-deepsearch ~/.trae-cn/skills/
 
-# or: TRAE Work → Skills marketplace → upload a .zip of skills/codex-deepsearch
+# or: TRAE Work → Skills marketplace → upload a .zip of plugins/codex-deepsearch/skills/codex-deepsearch
 ```
 
 ### Claude Code — partial compatibility
@@ -123,10 +136,11 @@ cp -r skills/codex-deepsearch ~/.trae-cn/skills/
 ```bash
 # personal skill
 mkdir -p ~/.claude/skills/codex-deepsearch
-cp -r skills/codex-deepsearch/* ~/.claude/skills/codex-deepsearch/
+cp -r plugins/codex-deepsearch/skills/codex-deepsearch/* ~/.claude/skills/codex-deepsearch/
 
 # or project skill
-mkdir -p .claude/skills/codex-deepsearch && cp -r skills/codex-deepsearch/* "$_"
+mkdir -p .claude/skills/codex-deepsearch && \
+  cp -r plugins/codex-deepsearch/skills/codex-deepsearch/* "$_"
 ```
 
 Same caveat as TRAE: Codex-specific surfaces in the body do not apply. The ledgers, review gate, and privacy rules are tool-agnostic.
@@ -171,7 +185,7 @@ Before publishing or after any edit, run:
 # Codex skill-creator validator (mandated by AGENTS.md)
 uv run --with pyyaml python \
   /Users/mac/.codex/skills/.system/skill-creator/scripts/quick_validate.py \
-  skills/codex-deepsearch
+  plugins/codex-deepsearch/skills/codex-deepsearch
 ```
 
 Hard conventions enforced by all target tools:
@@ -195,7 +209,7 @@ Forward-test on a realistic prompt (not "review this skill") with a fresh subage
 
 | Agent            | Status | Install path                                 | Notes                                                       |
 | ---------------- | ------ | -------------------------------------------- | ----------------------------------------------------------- |
-| OpenAI Codex CLI | Native | `~/.codex/skills/codex-deepsearch/`          | Primary target; uses `/goal`, `apply_patch`, optional `agents/openai.yaml` |
+| OpenAI Codex CLI | Native | `codex plugin marketplace add shaoqing404/codex-deepsearch` or `~/.codex/skills/codex-deepsearch/` | Primary target; uses `/goal`, `apply_patch`, optional `agents/openai.yaml` |
 | TRAE IDE         | Partial| `.trae/skills/` or `~/.trae-cn/skills/`     | Frontmatter loads; Codex-specific body sections ignored     |
 | TRAE CLI         | Partial| `.traecli/skills/`                           | Reads IDE dirs too                                          |
 | TRAE Work        | Partial| `.trae/skills/` or marketplace `.zip` upload | Same caveat as TRAE IDE                                     |

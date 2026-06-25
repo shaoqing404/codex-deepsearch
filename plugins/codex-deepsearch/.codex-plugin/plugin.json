@@ -1,0 +1,28 @@
+{
+  "name": "codex-deepsearch",
+  "version": "0.1.0",
+  "description": "Codex-native deep research with source/claim ledgers, review gates, /goal checkpoints, and optional codex-with-cc-plus delegation.",
+  "author": {
+    "name": "shaoqing404",
+    "url": "https://github.com/shaoqing404"
+  },
+  "homepage": "https://github.com/shaoqing404/codex-deepsearch",
+  "repository": "https://github.com/shaoqing404/codex-deepsearch",
+  "license": "Apache-2.0",
+  "keywords": ["research", "evidence", "ledger", "review-gate", "deepsearch", "codex", "goal"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Codex DeepSearch",
+    "shortDescription": "Codex-native research harness with source/claim ledgers and review gates",
+    "longDescription": "Turns deep research into an evidence-led, reviewable workflow. Enforces a minimum contract: research design, scenario matrix, source/claim ledgers, counter-evidence, review gate, and readiness decision. Supports /goal checkpoints for long-running research and optional codex-with-cc-plus worker delegation.",
+    "developerName": "shaoqing404",
+    "category": "Research",
+    "capabilities": ["Read"],
+    "websiteURL": "https://github.com/shaoqing404/codex-deepsearch",
+    "defaultPrompt": [
+      "Use $codex-deepsearch to run source-backed research with ledgers and review gate.",
+      "Use $codex-deepsearch to research whether a planned feature should become an implementation spec.",
+      "Use $codex-deepsearch with codex-with-cc-plus to widen search and run a skeptic review before synthesis."
+    ]
+  }
+}

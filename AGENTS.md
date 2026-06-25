@@ -13,7 +13,8 @@ This repository develops the local Codex skill `codex-deepsearch`.
 
 ## Layout
 
-- `skills/codex-deepsearch/`: installable skill source.
+- `plugins/codex-deepsearch/`: installable plugin source. The skill lives at `plugins/codex-deepsearch/skills/codex-deepsearch/`.
+- `.agents/plugins/marketplace.json`: Codex plugin marketplace catalog for `codex plugin marketplace add shaoqing404/codex-deepsearch`.
 - `specs/`: implementation and forward-test plans.
 - `docs/`: architecture and roadmap notes.
 
@@ -28,5 +29,5 @@ uv run --with pyyaml python /Users/mac/.codex/skills/.system/skill-creator/scrip
 If the install path is not linked yet, validate the source path:
 
 ```bash
-uv run --with pyyaml python /Users/mac/.codex/skills/.system/skill-creator/scripts/quick_validate.py /Users/mac/Developer/element_workspace/codex-deepsearch/skills/codex-deepsearch
+uv run --with pyyaml python /Users/mac/.codex/skills/.system/skill-creator/scripts/quick_validate.py /Users/mac/Developer/element_workspace/codex-deepsearch/plugins/codex-deepsearch/skills/codex-deepsearch
 ```

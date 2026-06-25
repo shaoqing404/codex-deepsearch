@@ -50,4 +50,4 @@ Create a reusable local Codex skill that turns deep research into a Codex-native
 
 - Forward-test on a real Codex research prompt.
 - Consider adding deterministic ledger linting if repeated usage shows format drift.
-- Consider packaging as a plugin if distribution beyond this machine becomes important.
+- ✅ Done: package as a Codex plugin with `.codex-plugin/plugin.json` and `.agents/plugins/marketplace.json` so users can install via `codex plugin marketplace add shaoqing404/codex-deepsearch`.

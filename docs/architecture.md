@@ -13,13 +13,25 @@
 
 ## Fact Source
 
-The skill source lives at:
+The plugin source lives at:
 
 ```text
-/Users/mac/Developer/element_workspace/codex-deepsearch/skills/codex-deepsearch
+/Users/mac/Developer/element_workspace/codex-deepsearch/plugins/codex-deepsearch
 ```
 
-The local Codex installation should point to that folder:
+The skill inside the plugin lives at:
+
+```text
+/Users/mac/Developer/element_workspace/codex-deepsearch/plugins/codex-deepsearch/skills/codex-deepsearch
+```
+
+The Codex plugin marketplace catalog lives at:
+
+```text
+/Users/mac/Developer/element_workspace/codex-deepsearch/.agents/plugins/marketplace.json
+```
+
+For direct skill install (without the plugin wrapper), the local Codex installation should point to the inner skill folder:
 
 ```text
 /Users/mac/.codex/skills/codex-deepsearch
@@ -35,3 +47,4 @@ Using a symlink keeps development and installed skill behavior aligned.
 - Make `codex-with-cc-plus` optional and task-file-driven.
 - Treat `/goal` as a checkpointed long-task control surface.
 - Require review before final synthesis becomes implementation input.
+- Ship as a Codex plugin (`.codex-plugin/plugin.json` + marketplace catalog) so users can install via `codex plugin marketplace add shaoqing404/codex-deepsearch`, while keeping the inner skill Agent-Spec-compliant for Trae and Claude Code direct install.

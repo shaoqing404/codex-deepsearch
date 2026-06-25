@@ -1,0 +1,20 @@
+{
+  "name": "codex-deepsearch-marketplace",
+  "interface": {
+    "displayName": "Codex DeepSearch"
+  },
+  "plugins": [
+    {
+      "name": "codex-deepsearch",
+      "source": {
+        "source": "local",
+        "path": "./plugins/codex-deepsearch"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Research"
+    }
+  ]
+}
