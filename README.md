@@ -60,6 +60,8 @@ frame -> scenario matrix -> source discovery -> source ledger -> claim ledger
 
 ## Repository layout
 
+This repository is intentionally plugin-first. The plugin wrapper is the canonical distribution shape for Codex plugin/skills publication; direct skill symlinks are only a local-development adapter that points into the inner skill folder.
+
 ```text
 codex-deepsearch/
 ├── .agents/plugins/marketplace.json          # Codex plugin marketplace catalog

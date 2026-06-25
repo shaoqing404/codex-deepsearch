@@ -13,13 +13,13 @@
 
 ## Fact Source
 
-The plugin source lives at:
+The plugin source is the canonical distribution shape. Keep it intact for Codex plugin/skills publication:
 
 ```text
 /Users/mac/Developer/element_workspace/codex-deepsearch/plugins/codex-deepsearch
 ```
 
-The skill inside the plugin lives at:
+The skill inside the plugin is the Agent Skills folder consumed by direct local installs and by the plugin manifest:
 
 ```text
 /Users/mac/Developer/element_workspace/codex-deepsearch/plugins/codex-deepsearch/skills/codex-deepsearch
@@ -31,7 +31,7 @@ The Codex plugin marketplace catalog lives at:
 /Users/mac/Developer/element_workspace/codex-deepsearch/.agents/plugins/marketplace.json
 ```
 
-For direct skill install (without the plugin wrapper), the local Codex installation should point to the inner skill folder. Do not point the install path at the repository root or `plugins/codex-deepsearch`; those are wrappers and do not contain the skill's `SKILL.md` at their root.
+For direct skill install (without the plugin wrapper), the local Codex installation should point to the inner skill folder. Do not point the install path at the repository root or `plugins/codex-deepsearch`; those are distribution wrappers and do not contain the skill's `SKILL.md` at their root.
 
 ```text
 /Users/mac/.codex/skills/codex-deepsearch
