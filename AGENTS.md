@@ -24,6 +24,7 @@ Run skill validation after changing the skill:
 
 ```bash
 uv run --with pyyaml python /Users/mac/.codex/skills/.system/skill-creator/scripts/quick_validate.py /Users/mac/.codex/skills/codex-deepsearch
+uv run --with pyyaml python /Users/mac/.codex/skills/.system/skill-creator/scripts/quick_validate.py /Users/mac/.agents/skills/codex-deepsearch
 ```
 
 If the install path is not linked yet, validate the source path:

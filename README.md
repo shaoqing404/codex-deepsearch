@@ -105,17 +105,25 @@ Codex reads `.agents/plugins/marketplace.json` from the repo and installs the pl
 
 **Option B — Direct skill install (for local development):**
 
+Direct install must point at the inner skill folder, not the repository root and not the plugin wrapper.
+
 ```bash
-# symlink so edits take effect immediately
-ln -s "$PWD/plugins/codex-deepsearch/skills/codex-deepsearch" \
-  ~/.codex/skills/codex-deepsearch
+# symlink so edits take effect immediately in both common user-skill roots
+TARGET="$PWD/plugins/codex-deepsearch/skills/codex-deepsearch"
+for BASE in ~/.codex/skills ~/.agents/skills; do
+  mkdir -p "$BASE"
+  LINK="$BASE/codex-deepsearch"
+  if [ -L "$LINK" ]; then rm "$LINK"; fi
+  if [ -e "$LINK" ]; then echo "Refusing to replace $LINK"; exit 2; fi
+  ln -s "$TARGET" "$LINK"
+done
 
 # or copy
 mkdir -p ~/.codex/skills
 cp -r plugins/codex-deepsearch/skills/codex-deepsearch ~/.codex/skills/
 ```
 
-Codex auto-discovers skills in `~/.codex/skills/`. No restart is needed for edits to existing skills.
+The path `~/.codex/skills/codex-deepsearch/SKILL.md` or `~/.agents/skills/codex-deepsearch/SKILL.md` must exist after installation. If a Codex session was already running before first install, start a fresh session so the skill list is rebuilt.
 
 ### TRAE (IDE / CLI / Work) — partial compatibility
 

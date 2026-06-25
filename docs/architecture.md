@@ -31,10 +31,11 @@ The Codex plugin marketplace catalog lives at:
 /Users/mac/Developer/element_workspace/codex-deepsearch/.agents/plugins/marketplace.json
 ```
 
-For direct skill install (without the plugin wrapper), the local Codex installation should point to the inner skill folder:
+For direct skill install (without the plugin wrapper), the local Codex installation should point to the inner skill folder. Do not point the install path at the repository root or `plugins/codex-deepsearch`; those are wrappers and do not contain the skill's `SKILL.md` at their root.
 
 ```text
 /Users/mac/.codex/skills/codex-deepsearch
+/Users/mac/.agents/skills/codex-deepsearch
 ```
 
 Using a symlink keeps development and installed skill behavior aligned.
